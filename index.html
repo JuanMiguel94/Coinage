@@ -6,10 +6,9 @@
     </head>
     <body ng-controller="mainController as main">
         <form name="form">
-            <input type="text" name="amount" ng-model="amount" ng-pattern="pattern" />
-            <input type="button" value="Convert" ng-disabled="form.amount.$error.pattern"
-            ng-click="convertClicked(amount)">
-            <span style="color:orange" ng-show="form.amount.$error.pattern">invalid input</span>
+            <input type="text" required name="amount" ng-model="amount" ng-pattern="pattern" />
+            <input type="button" value="Convert" ng-disabled="form.amount.$invalid"
+            ng-click="convertClicked(amount)">            
         </form>   
         <table style="width:100%">
             <tr>

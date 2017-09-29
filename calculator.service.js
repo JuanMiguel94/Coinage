@@ -19,7 +19,7 @@ angular.module("App").service('calculator', function(currencyInformation, curren
         let distribution = [];        
         let index = 0;
         while (amountInPences != 0 && index < this.coinValues.length) {            
-            let tempCurrencyType = this.coinValues[index].currencieType;            
+            let tempCurrencyType = this.coinValues[index].currencyType;            
             let tempAmountInPences = parseInt(amountInPences/this.coinValues[index].value);
             distribution.push({"currencyType": tempCurrencyType,
                                "amountInPences": tempAmountInPences});

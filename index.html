@@ -5,16 +5,32 @@
         <title>Coinage</title>
     </head>
     <body ng-controller="mainController as main">        
-        <form name="form" ng-controller="calculatorController">
-            <input type="text" required name="amount" ng-model="amount" ng-pattern="pattern" />
-            <input type="button" value="Convert" ng-disabled="form.amount.$invalid"
-            ng-click="convertClicked(amount)">            
-        </form>   
-        <table style="width:100%" ng-controller="calculatorController">
-            <tr>
-              <th>something</th>           
-            </tr>
-          </table>          
+        <div>
+            <a>Coinage v1.0</a>            
+        </div>                     
+            <div ng-controller="calculatorController">
+                <form>
+                    <a>Enter monetary value for coin conversion.</a>
+                    <input type="text" required name="amount" ng-model="amount" ng-pattern="pattern"/>
+                    <input type="button" value="Convert" ng-disabled="form.amount.$invalid"
+                    ng-click="convertClicked(amount)"> 
+                </form>
+                <div>
+                    <div>
+                        <a>Converting 365 pennies into coins.</a>                    
+                    </div>                                        
+                    <table style="width:100%">
+                        <tr ng-repeat="i in distributedAmount">
+                            <th>{{i.currencyType}}</th>
+                            <th>{{i.amountInPences}}</th>
+                        </tr>
+                    </table>                    
+                </div>
+            </div>
+            <div>
+                <a>@ Coinage 2017</a>
+            </div>
+        </div>        
     </body>
     <script type="text/javascript" src="./node_modules/angular/angular.js"></script>
     <script type="text/javascript" src="./app.js"></script>

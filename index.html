@@ -4,13 +4,13 @@
         <meta charset="utf-8">
         <title>Coinage</title>
     </head>
-    <body ng-controller="mainController as main">
-        <form name="form">
+    <body ng-controller="mainController as main">        
+        <form name="form" ng-controller="calculatorController">
             <input type="text" required name="amount" ng-model="amount" ng-pattern="pattern" />
             <input type="button" value="Convert" ng-disabled="form.amount.$invalid"
             ng-click="convertClicked(amount)">            
         </form>   
-        <table style="width:100%">
+        <table style="width:100%" ng-controller="calculatorController">
             <tr>
               <th>something</th>           
             </tr>
@@ -19,6 +19,7 @@
     <script type="text/javascript" src="./node_modules/angular/angular.js"></script>
     <script type="text/javascript" src="./app.js"></script>
     <script type="text/javascript" src="./calculator.service.js"></script>
-    <script type="text/javascript" src="./businessInformation.service.js"></script>
+    <script type="text/javascript" src="./currencyInformation.service.js"></script>
     <script type="text/javascript" src="./currencyParser.service.js"></script>
+    <script type="text/javascript" src="./calculator.controller.js"></script>
 </html>

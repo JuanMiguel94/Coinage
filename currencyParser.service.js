@@ -27,4 +27,5 @@ angular.module("App").service('currencyParser', function() {
         let penceSymbolIndex = amount.indexOf('p');
         return penceSymbolIndex != -1 ? amount.length - 1 : amount.length;
     }
+    
 });

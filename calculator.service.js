@@ -1,4 +1,4 @@
-angular.module("App").service('calculator', function(currencyInformation, currencyParser) {
+angular.module("App").service('calculatorService', function(currencyInformation, currencyParser) {
     this.coinValues = currencyInformation.coinValues;
     this.decimalsToRoundTo = currencyInformation.decimalsToRoundTo;
     this.getDistribution = amount => {
@@ -15,11 +15,11 @@ angular.module("App").service('calculator', function(currencyInformation, curren
             return pences;
         }
     }
-    this.makeDistribution = amountInPences => {
+    this.makeDistribution = amountInPences => {        
         let distribution = [];        
         let index = 0;
         while (amountInPences != 0 && index < this.coinValues.length) {            
-            let tempCurrencyType = this.coinValues[index].currencyType;            
+            let tempCurrencyType = this.coinValues[index].currencyType;          
             let tempAmountInPences = parseInt(amountInPences/this.coinValues[index].value);
             distribution.push({"currencyType": tempCurrencyType,
                                "amountInPences": tempAmountInPences});

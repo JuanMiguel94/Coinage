@@ -9,7 +9,7 @@
             <a>Coinage v1.0</a>            
         </div>                     
             <div ng-controller="calculatorController">
-                <form>
+                <form name="form">
                     <a>Enter monetary value for coin conversion.</a>
                     <input type="text" required name="amount" ng-model="amount" ng-pattern="pattern"/>
                     <input type="button" value="Convert" ng-disabled="form.amount.$invalid"

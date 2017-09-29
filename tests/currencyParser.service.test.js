@@ -5,7 +5,7 @@ describe('currencyParser', function () {
         var calculatorService;
     
         beforeEach(inject(function(_currencyParser_){
-            currencyParser = _currencyParser_;            
+            currencyParser = _currencyParser_;        
         }));
     
         describe('getHundreds', function () {
@@ -19,35 +19,81 @@ describe('currencyParser', function () {
             });
         });
         describe('getHundredsSliceStart', function () {
-            it('returns the index of the start of the hundreds in a given number with sterlin', function () {            
-                expect(currencyParser.getHundredsSliceStart('123.123')).toEqual(0);
+            it('returns the start index of hundreds in a given number with no sterlin, dot and no pence', function () {            
+                expect(currencyParser.getHundredsSliceStart({'hasStarlin' : false,
+                                                             'hasDot' : true,
+                                                             'hasPenceSymbol' : false,
+                                                             'dotIndex' : 3,
+                                                             'length' : 7})).toEqual(0);
             });
-            it('returns the index of the start of the hundreds in a given number without sterlin', function () {            
-                expect(currencyParser.getHundredsSliceStart('£123.123')).toEqual(1);
+            it('returns the start index of hundreds in a given number with sterlin, dot and no pence', function () {            
+                expect(currencyParser.getHundredsSliceStart({'hasStarlin' : true,
+                                                             'hasDot' : true,
+                                                             'hasPenceSymbol' : false,
+                                                             'dotIndex' : 4,
+                                                             'length' : 8})).toEqual(1);
+            });
+            it('returns the start index of hundreds in a given number with no sterlin, no dot and no pence', function () {            
+                expect(currencyParser.getHundredsSliceStart({'hasStarlin' : false,
+                                                             'hasDot' : false,
+                                                             'hasPenceSymbol' : false,
+                                                             'dotIndex' : -1,
+                                                             'length' : 6})).toEqual(0);
+            });
+            it('returns the start index of hundreds in a given number with sterlin, no dot and no pence', function () {            
+                expect(currencyParser.getHundredsSliceStart({'hasStarlin' : true,
+                                                             'hasDot' : false,
+                                                             'hasPenceSymbol' : false,
+                                                             'dotIndex' : -1,
+                                                             'length' : 7})).toEqual(1);
             });
         });
         describe('getHundredsSliceEnd', function () {
-            it('returns the index of the end of the hundreds in a given number without dot', function () {            
-                expect(currencyParser.getHundredsSliceEnd('1234')).toEqual(4);
+            it('returns the end index of hundreds in a given number with no sterlin, dot and no pence', function () {            
+                expect(currencyParser.getHundredsSliceEnd({'hasStarlin' : false,
+                                                             'hasDot' : true,
+                                                             'hasPenceSymbol' : false,
+                                                             'dotIndex' : 3,
+                                                             'length' : 7})).toEqual(3);
             });
-            it('returns the index of the end of the hundreds in a given number with dot', function () {            
-                expect(currencyParser.getHundredsSliceEnd('12.34')).toEqual(2);
+            it('returns the end index of hundreds in a given number with sterlin, dot and no pence', function () {            
+                expect(currencyParser.getHundredsSliceEnd({'hasStarlin' : true,
+                                                             'hasDot' : false,
+                                                             'hasPenceSymbol' : false,
+                                                             'dotIndex' : -1,
+                                                             'length' : 7})).toEqual(7);
             });
         });
         describe('getPencesSliceStart', function () {
-            it('returns the index of the start of the pences in a given number with dot', function () {            
-                expect(currencyParser.getPencesSliceStart('12.34')).toEqual(3);
+            it('returns the start index of pences in a given number with no sterlin, dot and no pence', function () {            
+                expect(currencyParser.getPencesSliceStart({'hasStarlin' : false,
+                                                             'hasDot' : true,
+                                                             'hasPenceSymbol' : false,
+                                                             'dotIndex' : 3,
+                                                             'length' : 7})).toEqual(4);
             });
-            it('returns the index of the start of the pences in a given number without dot ', function () {            
-                expect(currencyParser.getPencesSliceStart('1234')).toEqual(0);
+            it('returns the start index of pences in a given number with sterlin, dot and no pence', function () {            
+                expect(currencyParser.getPencesSliceStart({'hasStarlin' : false,
+                                                             'hasDot' : false,
+                                                             'hasPenceSymbol' : true,
+                                                             'dotIndex' : -1,
+                                                             'length' : 7})).toEqual(0);
             });
         });
         describe('getPencesSliceEnd', function () {
-            it('returns the index of the end of the pences in a given number without p symbol', function () {            
-                expect(currencyParser.getPencesSliceEnd('12.34')).toEqual(5);
+            it('returns the end index of penses in a given number with no sterlin, dot and no pence', function () {            
+                expect(currencyParser.getPencesSliceEnd({'hasStarlin' : false,
+                                                             'hasDot' : true,
+                                                             'hasPenceSymbol' : false,
+                                                             'dotIndex' : 3,
+                                                             'length' : 7})).toEqual(7);
             });
-            it('returns the index of the end of the pences in a given number with p symbol', function () {            
-                expect(currencyParser.getPencesSliceEnd('12.34p')).toEqual(5);
+            it('returns the end index of penses in a given number with sterlin, dot and no pence', function () {            
+                expect(currencyParser.getPencesSliceEnd({'hasStarlin' : false,
+                                                             'hasDot' : false,
+                                                             'hasPenceSymbol' : true,
+                                                             'dotIndex' : -1,
+                                                             'length' : 7})).toEqual(6);
             });
         });
 

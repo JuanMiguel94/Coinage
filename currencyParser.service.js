@@ -1,65 +1,45 @@
-angular.module("App").service('currencyParser', function() {    
-    this.getNotationState = amount => { 
-        return {
-                    'hasStarlin' : amount.indexOf('£') != -1,
-                    'hasDot' : amount.indexOf('.') != -1,
-                    'hasPenceSymbol' : amount.indexOf('p') != -1,
-                    'dotIndex' : amount.indexOf('.'),
-                    'length' : amount.length
-               };
-    }
-    this.getHundreds = amount => {
-        let notationState = this.getNotationState(amount);
-        let startOfSlice = this.getHundredsSliceStart(notationState); 
-        let endOfSlice = this.getHundredsSliceEnd(notationState);
-        let slice = amount.slice(startOfSlice, endOfSlice);
-        return slice ? parseInt(slice) * 100 : 0;
-    }
-    this.getPences = amount => {
-        let notationState = this.getNotationState(amount);      
-        let startOfSlice = this.getPencesSliceStart(notationState);
-        let endOfSlice = this.getPencesSliceEnd(notationState);
-        let slice = amount.slice(startOfSlice, endOfSlice);
-        return slice ? parseInt(slice) : 0;
-    }
-    this.getHundredsSliceStart = (notationState) =>{        
-        if (notationState.hasStarlin) {
-            return 1;
+angular.module("App").service('currencyParser', function() {        
+   
+    this.parseAmountIntoPences = (amountInput, digitsToRoundTo) =>(
+        parseAmountIntoPencesAux = (total, currentMagnitude) => {
+            if (amountInput == '') return total/10;
+            let indexes = this.getIndexes(amountInput, digitsToRoundTo);        
+            let roundIncrement = this.getRoundIncrement(amountInput, digitsToRoundTo);
+            if (amountInput[0] == '.' && currentMagnitude == 100) total /= 100;            
+            currentMagnitude = this.getUpdateMagnitude(amountInput, currentMagnitude);
+            let nexIncrement = (parseInt(amountInput[indexes.head]) + roundIncrement) * currentMagnitude;
+            if (isNaN(nexIncrement)) return total * 10;
+            total = (total + nexIncrement) * 10;                
+            amountInput = amountInput.slice(indexes.head + 1, indexes.end);         
+            return parseAmountIntoPencesAux(total, currentMagnitude);
+        }
+    )(0, 1, amountInput, digitsToRoundTo);                    
+
+    this.getUpdateMagnitude = (amountInput, currentMagnitude) => {
+        if (amountInput[0] == '£') {
+            return 100;
+        }
+        else if (amountInput[0] == '.') {
+            return 1;            
         } else {
-            return (notationState.hasPenceSymbol && !notationState.hasDot)? -1 : 0;
-        }                
-    }
-    this.getHundredsSliceEnd = (notationState) => {
-        let dotIndex = notationState.dotIndex        
-        if (notationState.hasDot) {
-            return dotIndex;
-        } else if ( notationState.hasPenceSymbol) {
-            return notationState.hasStarlin? notationState.length - 1 : -1;
-        } else {
-            return notationState.length;
+            return currentMagnitude;
         }
     }
-    this.getPencesSliceStart = (notationState) => {        
-        if (notationState.hasStarlin && !notationState.hasDot) {
-            return -1;
-        } else if (notationState.hasDot && notationState.hasPenceSymbol) {
-            return notationState.dotIndex == notationState.length - 2? -1: notationState.dotIndex + 1;
-        } else if (notationState.hasDot && !notationState.hasPenceSymbol) {
-            return notationState.dotIndex == notationState.length - 1? -1 : notationState.dotIndex + 1;
-        } else {
-            return 0;
-        }
+    this.getRoundIncrement = (amountInput, digitsToRoundTo) => 
+        this.hasToBeRound(amountInput, digitsToRoundTo) ? 1/(Math.pow(10, digitsToRoundTo-1)) : 0;
+  
+    this.hasToBeRound = (amountInput, digitsToRoundTo) => amountInput[0] == '.' &&
+        amountInput.length -1 > digitsToRoundTo && parseInt(amountInput[digitsToRoundTo  + 1]) >= 5;
+
+    this.getIndexes = (amountInput, digitsToRoundTo) => {
+        let headIndex = amountInput[0] == '£' || amountInput[0] == '.'? 1 : 0;
+        let endIndex;    
+            if (amountInput[0] == '.' && amountInput.length > digitsToRoundTo + 1) {                      
+                endIndex = digitsToRoundTo + 1;                
+            } else {
+                endIndex = amountInput[amountInput.length - 1] == 'p' ?
+                    amountInput.length - 1 : amountInput.length;
+            }
+        return {head: headIndex, end: endIndex};
     }
-    this.getPencesSliceEnd = (notationState) => {
-        if (notationState.hasStarlin && !notationState.hasDot) {
-            return -1;
-        } else if (notationState.hasDot && notationState.hasPenceSymbol) {
-            return notationState.dotIndex == notationState.length - 2? -1 : notationState.length -1;                
-        } else if (notationState.hasDot && !notationState.hasPenceSymbol) {
-            return notationState.dotIndex == notationState.length - 1? -1 : notationState.length;
-        } else {
-            return notationState.hasPenceSymbol? notationState.length -1 : notationState.length;
-        }
-    }
-    
 });

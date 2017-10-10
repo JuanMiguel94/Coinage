@@ -3,98 +3,29 @@ describe('currencyParser', function () {
         beforeEach(module('App'));
     
         var calculatorService;
-    
+        var parseAmountIntoPencesInputs = [{input: '4', output: 4, description: 'single digit'},
+        {input: '85', output: 85, description: 'double digit'},
+        {input: '197p', output: 197, description: 'pence symbol'},
+        {input: '2p', output: 2, description: 'pence symbol single digit'},
+        {input: '1.87', output:187, description: 'pounds decimal'},
+        {input: '£1.23', output: 123, description: 'pound symbol'},
+        {input: '£2', output: 200, description: 'single digit pound symbol'},
+        {input: '£10', output: 1000, description: 'double digit pound symbol'},
+        {input: '£1.87p', output: 187, description: 'pound and pence symbol'},
+        {input: '£1p', output: 100, description: 'missing pence'},
+        {input: '£1.p', output: 100, description: 'missing pence but present decimal point'},
+        {input: '001.41p', output: 141, description: 'buffered zeros'},
+        {input: '4.235p', output: 424, description: 'rounding three decimal places to two'},
+        {input: '£1.257422457p', output: 126, description: 'rounding with symbols'}];
+        
         beforeEach(inject(function(_currencyParser_){
-            currencyParser = _currencyParser_;        
+            currencyParser = _currencyParser_;
         }));
-    
-        describe('getHundreds', function () {
-            it('returns the value of the hundreds of a given number', function () {            
-                expect(currencyParser.getHundreds('123.123')).toEqual(12300);
-            });
+        describe('parseAmountIntoPences', function () {
+            parseAmountIntoPencesInputs.forEach(scenario => {
+                it(`parses string to pence when given ${scenario.description}`, () => {            
+                    expect(currencyParser.parseAmountIntoPences(scenario.input, 2)).toEqual(scenario.output);
+                });
+            });                        
         });
-        describe('getPences', function () {
-            it('returns the value of the pences of a given number', function () {            
-                expect(currencyParser.getPences('123.123')).toEqual(123);
-            });
-        });
-        describe('getHundredsSliceStart', function () {
-            it('returns the start index of hundreds in a given number with no sterlin, dot and no pence', function () {            
-                expect(currencyParser.getHundredsSliceStart({'hasStarlin' : false,
-                                                             'hasDot' : true,
-                                                             'hasPenceSymbol' : false,
-                                                             'dotIndex' : 3,
-                                                             'length' : 7})).toEqual(0);
-            });
-            it('returns the start index of hundreds in a given number with sterlin, dot and no pence', function () {            
-                expect(currencyParser.getHundredsSliceStart({'hasStarlin' : true,
-                                                             'hasDot' : true,
-                                                             'hasPenceSymbol' : false,
-                                                             'dotIndex' : 4,
-                                                             'length' : 8})).toEqual(1);
-            });
-            it('returns the start index of hundreds in a given number with no sterlin, no dot and no pence', function () {            
-                expect(currencyParser.getHundredsSliceStart({'hasStarlin' : false,
-                                                             'hasDot' : false,
-                                                             'hasPenceSymbol' : false,
-                                                             'dotIndex' : -1,
-                                                             'length' : 6})).toEqual(0);
-            });
-            it('returns the start index of hundreds in a given number with sterlin, no dot and no pence', function () {            
-                expect(currencyParser.getHundredsSliceStart({'hasStarlin' : true,
-                                                             'hasDot' : false,
-                                                             'hasPenceSymbol' : false,
-                                                             'dotIndex' : -1,
-                                                             'length' : 7})).toEqual(1);
-            });
-        });
-        describe('getHundredsSliceEnd', function () {
-            it('returns the end index of hundreds in a given number with no sterlin, dot and no pence', function () {            
-                expect(currencyParser.getHundredsSliceEnd({'hasStarlin' : false,
-                                                             'hasDot' : true,
-                                                             'hasPenceSymbol' : false,
-                                                             'dotIndex' : 3,
-                                                             'length' : 7})).toEqual(3);
-            });
-            it('returns the end index of hundreds in a given number with sterlin, dot and no pence', function () {            
-                expect(currencyParser.getHundredsSliceEnd({'hasStarlin' : true,
-                                                             'hasDot' : false,
-                                                             'hasPenceSymbol' : false,
-                                                             'dotIndex' : -1,
-                                                             'length' : 7})).toEqual(7);
-            });
-        });
-        describe('getPencesSliceStart', function () {
-            it('returns the start index of pences in a given number with no sterlin, dot and no pence', function () {            
-                expect(currencyParser.getPencesSliceStart({'hasStarlin' : false,
-                                                             'hasDot' : true,
-                                                             'hasPenceSymbol' : false,
-                                                             'dotIndex' : 3,
-                                                             'length' : 7})).toEqual(4);
-            });
-            it('returns the start index of pences in a given number with sterlin, dot and no pence', function () {            
-                expect(currencyParser.getPencesSliceStart({'hasStarlin' : false,
-                                                             'hasDot' : false,
-                                                             'hasPenceSymbol' : true,
-                                                             'dotIndex' : -1,
-                                                             'length' : 7})).toEqual(0);
-            });
-        });
-        describe('getPencesSliceEnd', function () {
-            it('returns the end index of penses in a given number with no sterlin, dot and no pence', function () {            
-                expect(currencyParser.getPencesSliceEnd({'hasStarlin' : false,
-                                                             'hasDot' : true,
-                                                             'hasPenceSymbol' : false,
-                                                             'dotIndex' : 3,
-                                                             'length' : 7})).toEqual(7);
-            });
-            it('returns the end index of penses in a given number with sterlin, dot and no pence', function () {            
-                expect(currencyParser.getPencesSliceEnd({'hasStarlin' : false,
-                                                             'hasDot' : false,
-                                                             'hasPenceSymbol' : true,
-                                                             'dotIndex' : -1,
-                                                             'length' : 7})).toEqual(6);
-            });
-        });
-
     });

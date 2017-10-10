@@ -14,9 +14,9 @@ describe('calculatorService', function () {
             expect(calculatorService.getDistribution(input)).not.toBeUndefined();
         });
     });
-    describe('getAmountInPences', function () {
+    describe('parseAmountIntoPences', function () {
         it('returns an object', function () {            
-            expect(calculatorService.getAmountInPences(input)).not.toBeUndefined();
+            expect(calculatorService.getDistribution(input)).not.toBeUndefined();
         });
     });
     describe('makeDistribution', function () {

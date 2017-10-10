@@ -6,4 +6,9 @@ angular.module("App").service('currencyInformation', function() {
                         {currencyType: "twenty pences", value: 20},
                         {currencyType: "two pences", value: 2},
                         {currencyType: "one pence", value: 1}];
+    this.sortCoinValues = () => {
+        this.coinValues.sort((a, b) => {
+            return b.value - a.value;
+        });
+    }
 });

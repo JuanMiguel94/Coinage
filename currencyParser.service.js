@@ -6,7 +6,7 @@ angular.module("App").service('currencyParser', function() {
             let indexes = this.getIndexes(amountInput, digitsToRoundTo);        
             let roundIncrement = this.getRoundIncrement(amountInput, digitsToRoundTo);
             if (amountInput[0] == '.' && currentMagnitude == 100) total /= 100;            
-            currentMagnitude = this.getUpdateMagnitude(amountInput, currentMagnitude);
+            currentMagnitude = this.getUpdatedMagnitude(amountInput, currentMagnitude);
             let nexIncrement = (parseInt(amountInput[indexes.head]) + roundIncrement) * currentMagnitude;
             if (isNaN(nexIncrement)) return total * 10;
             total = (total + nexIncrement) * 10;                
@@ -15,7 +15,7 @@ angular.module("App").service('currencyParser', function() {
         }
     )(0, 1, amountInput, digitsToRoundTo);                    
 
-    this.getUpdateMagnitude = (amountInput, currentMagnitude) => {
+    this.getUpdatedMagnitude = (amountInput, currentMagnitude) => {
         if (amountInput[0] == '£') {
             return 100;
         }

@@ -8,20 +8,15 @@ describe('calculatorService', function () {
         calculatorService = _calculatorService_;
         input = '4';
     }));
-
+    
     describe('getDistribution', function () {
         it('returns an object', function () {            
             expect(calculatorService.getDistribution(input)).not.toBeUndefined();
         });
     });
-    describe('parseAmountIntoPences', function () {
-        it('returns an object', function () {            
-            expect(calculatorService.getDistribution(input)).not.toBeUndefined();
-        });
-    });
-    describe('makeDistribution', function () {
+    describe('distributeAmountIntoCurrencies', function () {
         it('distributes a value in pences into several currencies', function () {            
-            expect(calculatorService.makeDistribution(365)).toEqual(
+            expect(calculatorService.distributeAmountIntoCurrencies(365)).toEqual(
             [{currencyType: "two sterlin", amountInPences: 1},
             {currencyType: "one sterlin", amountInPences: 1},
             {currencyType: "fifty pences", amountInPences: 1},
@@ -36,13 +31,19 @@ describe('calculatorService', function () {
         });
     });
     describe('hasToRoundUp', function () {
-        it('is true if the given number should be rount upwards', function () {            
+        it('is true if the given number should not be round upwards', function () {            
             expect(calculatorService.hasToRoundUp(255)).toEqual(true);
+        });
+        it('is false if the given number should not be round', function () {            
+            expect(calculatorService.hasToRoundUp(253)).toEqual(false);
         });
     });
     describe('decimalsMatchLength', function () {
         it('is true if the number\'s lenght is less or equals to the given lenght', function () {            
             expect(calculatorService.decimalsMatchLength(254, 3)).toEqual(true);
+        });
+        it('is false if the number\'s lenght is greater than the given lenght', function () {            
+            expect(calculatorService.decimalsMatchLength(25445, 3)).toEqual(false);
         });
     });
 });

@@ -1,12 +1,14 @@
 angular.module("App").service('calculatorService', function(currencyInformation, currencyParser) {
+    currencyInformation.sortCoinValues();
     this.coinValues = currencyInformation.coinValues;
     this.decimalsToRoundTo = currencyInformation.decimalsToRoundTo;
+    
     this.getDistribution = amount => {
-        let amountInPences = currencyParser.parseAmountIntoPences(amount, currencyInformation.decimalsToRoundTo);        
-        console.log('Amount un pences: ', amountInPences);
-        return this.makeDistribution(amountInPences);
+        let amountInPences = currencyParser.parseAmountIntoPences(amount, this.decimalsToRoundTo);                
+        return this.distributeAmountIntoCurrencies(amountInPences);
     };
-    this.makeDistribution = amountInPences => {        
+    
+    this.distributeAmountIntoCurrencies = amountInPences => {        
         let distribution = [];        
         let index = 0;
         while (amountInPences != 0 && index < this.coinValues.length) {            
@@ -19,6 +21,7 @@ angular.module("App").service('calculatorService', function(currencyInformation,
         }
         return distribution;
     };
+    
     this.round = (decimals, decimalsToRoundTo) => {
         if (this.decimalsMatchLength(decimals, decimalsToRoundTo)) {
             return decimals;        
@@ -27,6 +30,8 @@ angular.module("App").service('calculatorService', function(currencyInformation,
             return this.round(parseInt(decimals/10) + increment, decimalsToRoundTo);
         }
     };
+    
     this.hasToRoundUp = decimals => decimals % 10 >= 5;
+    
     this.decimalsMatchLength = (number, length) => number <= 10 ** length - 1;
 });

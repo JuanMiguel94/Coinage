@@ -2,10 +2,40 @@
 <html ng-app="App">
     <head>
         <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="app.css">
         <title>Coinage</title>
     </head>
     <body ng-controller="mainController">
-        
+        <div class="mainContainer">
+            <div class="header">
+                <a class="headerText">Coinage v1.0</a>            
+            </div>                     
+            <div>
+                <div class="inputArea">
+                    <a class="instructionTitle">Enter monetary value for coin conversion.</a>
+                    <input type="text" class="userInput" name="" id="">
+                    <input type="button" class="userInput" value="Convert">
+                </div>
+                <div style="border: 1px solid #93BDF5; margin: 5px;">
+                    <div class="title">
+                        <a>Converting 365 pennies into coins.</a>                    
+                    </div>                                        
+                    <table class="distributionTable">
+                        <tr>
+                            <th class="colum1">Coins</th>
+                            <th class="colum2">Amount</th>
+                        </tr>
+                        <tr>
+                            <th class="coin">Coins</th>
+                            <th class="amount">Amount</th>
+                        </tr>
+                    </table>                    
+                </div>
+            </div>
+            <div class="title">
+                <a>@ Coinage 2017</a>
+            </div>
+        </div>
     </body>
     <script type="text/javascript" src="./node_modules/angular/angular.js"></script>
     <script type="text/javascript" src="./app.js"></script>

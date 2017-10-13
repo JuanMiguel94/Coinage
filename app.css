@@ -1,0 +1,61 @@
+.mainContainer { 
+    background-color: #E9EDFF;
+    border: 1px solid #93BDF5;
+    width: 430px;
+}
+.inputArea{
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+.userInput{
+    width: 75px;
+    margin-left: 5px;
+    margin-top: 10px;
+}
+.header{
+    background-color: #93BDF5;
+    color: #000096;
+    font-weight: bold;
+    width: 100%;
+    
+}
+.headerText{
+    margin: 5px;
+}
+.title{
+    background-color: #93BDF5;
+    color: #000096;
+    text-align: center;
+    font-size: 13px;    
+}
+.instructionTitle{
+    color: #000096;
+    font-size: 14px;
+    margin-top:13px;
+    margin-bottom: 0px;
+    float: left;
+    
+}
+.colum1{
+    text-align: left;
+    color: #000096;
+    font-size: 17px;   
+}
+.colum2{
+    text-align: right;
+    color: #000096;
+    font-size: 17px;   
+}
+.coin{
+    text-align: left;
+    color: #000096;
+    font-size: 14px;
+}
+.amount{
+    text-align: right;
+    color: #000096;
+    font-size: 14px;
+}
+.distributionTable{
+    width: 100%;
+}
